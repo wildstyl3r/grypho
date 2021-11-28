@@ -1,0 +1,3 @@
+[submodule "nodesoup"]
+	path = nodesoup
+	url = https://github.com/olvb/nodesoup
