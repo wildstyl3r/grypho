@@ -1,7 +1,7 @@
 #ifndef GRYPHO_HPP
 #define GRYPHO_HPP
 //#include "matrix.hpp"
-#include "nodesoup.hpp"
+////#include "nodesoup.hpp"
 #include <unordered_set>
 #include <unordered_map>
 #include <algorithm>

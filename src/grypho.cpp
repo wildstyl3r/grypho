@@ -1,4 +1,5 @@
 #include "grypho.hpp"
+#include "nodesoup.hpp"
 
 Graph::Graph(vector<neighbourhood> adjv) : _adjacency_vector(adjv), _color(adjv.size(), 0), _degree(adjv.size(), 0), _label(adjv.size())
     {
