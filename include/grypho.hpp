@@ -19,7 +19,6 @@ using edge = std::pair<vertex, vertex>;
 using attributes = vector<value>;
 using permutation = vector<vertex>;
 using neighbourhood = unordered_set<vertex>;
-using coord = nodesoup::Point2D;
 
 
 class Graph
@@ -57,7 +56,7 @@ public:
     //Graph permute(std::vector<T> permutation);
     inline neighbourhood& operator()(const vertex v);
     const vector< neighbourhood >& V();
-    vector<coord> draw_coords_FR(unsigned width, unsigned height);
+    vector<std::pair<unsigned, unsigned>> draw_coords_FR(unsigned width, unsigned height);
     //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
     //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };
     //Matrix<T> getAdjMatrix() { return _distance_matrix & 1; };
