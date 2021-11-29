@@ -122,7 +122,7 @@ Graph::Graph(edge* begin, edge* end, bool directed, bool base1)
 }
 
 
-vector<nodesoup::Point2D> Graph::draw_coords_FR(unsigned width, unsigned height)
+vector<coord> Graph::draw_coords_FR(unsigned width, unsigned height)
 {
     nodesoup::adj_list_t g(_adjacency_vector.size());
     for(int i = 0; i < _adjacency_vector.size(); ++i){
