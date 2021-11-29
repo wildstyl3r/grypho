@@ -1,4 +1,8 @@
 #include "grypho.hpp"
+#include <cassert>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 Graph::Graph(string filename)//reading tgf and dot
 {

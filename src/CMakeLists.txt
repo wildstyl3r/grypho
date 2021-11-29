@@ -1,5 +1,4 @@
 add_library(grypho grypho.cpp grypho_fileio.cpp)
-add_library(grypho::grypho ALIAS grypho)
 
 target_include_directories(
   grypho
