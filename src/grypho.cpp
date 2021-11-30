@@ -121,19 +121,3 @@ Graph::Graph(edge* begin, edge* end, bool directed, bool base1)
 	}
     }
 }
-
-
-vector<std::pair<unsigned, unsigned>> Graph::draw_coords_FR(unsigned width, unsigned height)
-{
-    nodesoup::adj_list_t g(_adjacency_vector.size());
-    for(int i = 0; i < _adjacency_vector.size(); ++i){
-	g[i].reserve(_adjacency_vector[i].size());
-	g[i].insert(g[i].end(), _adjacency_vector[i].begin(), _adjacency_vector[i].end());
-    }
-    auto vecPoint = nodesoup::fruchterman_reingold(g, width, height);
-    vector<std::pair<unsigned, unsigned>> coords;
-    for (auto& coord : vecPoint){
-        coords.push_back({coord.x, coord.y});
-      }
-    return coords;
-}
