@@ -112,6 +112,7 @@ Graph::Graph(string filename)//reading tgf and dot
 
       while(!ifs.eof()){
           std::getline(ifs, line);
+          if (line == "") break;
           sstream e(line);
           string v, u;
           e >> v >> u;
