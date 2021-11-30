@@ -7,8 +7,9 @@
 Graph::Graph(string filename)//reading tgf and dot
 {
   using std::cerr;
-  if (filename.substr(filename.size()-4) != ".dot" &&
-      filename.substr(filename.size()-4) != ".tgf") {
+  string file_ext = filename.substr(filename.size()-4);
+  if (file_ext != ".dot" &&
+      file_ext != ".tgf") {
       cerr << "Error: file format is unsupported";
     }
 
@@ -23,8 +24,7 @@ Graph::Graph(string filename)//reading tgf and dot
   string line;
 
   //dot -- based on nodesoup's reader
-  if (filename.substr(filename.size()-4) == ".dot"){
-
+  if (file_ext == ".dot"){
       auto name_to_vertex_id = [&names](string name, vector<neighbourhood>& g) -> vertex {
         if (name[name.size() - 1] == ';') {
             name.erase(name.end() - 1, name.end());
@@ -80,35 +80,42 @@ Graph::Graph(string filename)//reading tgf and dot
       for(size_t i = 0; i < _adjacency_vector.size(); ++i){
           _degree[i] = _adjacency_vector[i].size();
         }
-      return;
-    }
-  else{//tgf
+
+    } else if (file_ext == ".tgf") {//tgf
+
       using sstream = std::stringstream;
+
+      std::unordered_map<string, value> colors;
 
       vertex i = 0;
       while(!ifs.eof()){
           std::getline(ifs, line);
           sstream v(line);
-          string id;
-          v >> id;
+          string id, color, label;
+          v >> id >> color; std::getline(v, label);
           if (id == "#") break;
 
           if (names.count(id) == 1){
               std::cout << "Error: non-unique vertex\n";
               abort();
-          } else {
+            } else {
               names[id] = i;
               _ID.push_back("");
               _label.push_back("");
+              _color.push_back(0);
+              if (colors.count(color) == 0){
+                  value new_color = colors.size();
+                  colors[color] = new_color;
+                }
+              _color[i] = colors[color];
               _ID[i] = id;
-              std::getline(v, _label[i]);
+              _label[i] = color != "" && label != "" ? color + " " + label : color + label;
               ++i;
-          }
-      }
+            }
+        }
 
       _adjacency_vector.resize(i);
       _degree.resize(i, 0);
-      _color.resize(i, 0);
 
       while(!ifs.eof()){
           std::getline(ifs, line);
@@ -120,14 +127,13 @@ Graph::Graph(string filename)//reading tgf and dot
           if (names.count(v) == 0 || names.count(u) == 0){
               std::cout << "Error: undefined vertex in edge list";
               abort();
-          } else {
+            } else {
               _adjacency_vector[names[v]].insert(names[u]);
               _adjacency_vector[names[u]].insert(names[v]);
               _degree[names[v]]++;
               _degree[names[u]]++;
-          }
-      }
-      return;
+            }
+        }
     }
 }
 
