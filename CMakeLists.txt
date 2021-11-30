@@ -12,7 +12,6 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 add_subdirectory(src)
-add_subdirectory(nodesoup)
 
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR grypho_BUILD_DEMO)
    AND BUILD_DEMO)
