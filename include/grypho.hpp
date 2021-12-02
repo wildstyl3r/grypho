@@ -48,6 +48,7 @@ public:
     vertex color(vertex v);
     vertex set_color(vertex v, value c);
     string id(vertex v);
+    string label(vertex v);
     attributes& colors();
     size_t count_colors();
     value max_degree();

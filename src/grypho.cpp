@@ -120,3 +120,8 @@ Graph::Graph(edge* begin, edge* end, bool directed, bool base1)
 	}
     }
 }
+
+string Graph::label(vertex v)
+{
+    return _label[v];
+}
