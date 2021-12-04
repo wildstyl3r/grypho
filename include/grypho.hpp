@@ -39,7 +39,8 @@ public:
     void save(string filename);
     
     bool directed();
-    bool has_edge(edge e);
+    bool has(edge e);
+    bool has(vertex v);
     void remove_edge(edge e);
     void add_edge(edge e);
     //void remove_vertex(vertex v);

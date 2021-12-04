@@ -23,7 +23,7 @@ Graph::Graph(attributes degree, attributes color, vector<string> label, vector<s
     }
 
 
-bool Graph::has_edge(edge e)
+bool Graph::has(edge e)
 {
   return _adjacency_vector[e.first].count(e.second);
 }
@@ -49,7 +49,14 @@ void Graph::add_edge(edge e)
 
 void Graph::add_vertex(neighbourhood adj)
 {
+  vertex v = _adjacency_vector.size();
   _adjacency_vector.push_back(adj);
+  if(!_directed){
+      for(vertex u : adj){
+          _adjacency_vector[u].insert(v);
+          _degree[u]++;
+      }
+  }
   _degree.push_back(_adjacency_vector.back().size());
   _color.push_back(0);
   _label.push_back("");
@@ -150,4 +157,9 @@ const vector<string>& Graph::ids()
 bool Graph::directed()
 {
     return _directed;
+}
+
+bool Graph::has(vertex v)
+{
+  return 0 <= v && v <= _adjacency_vector.size();
 }
