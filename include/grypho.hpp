@@ -23,6 +23,7 @@ using neighbourhood = unordered_set<vertex>;
 class Graph
 {
 protected:
+    bool _directed;
     vector<neighbourhood> _adjacency_vector;
     attributes _color;
     attributes _degree;
@@ -31,12 +32,13 @@ protected:
     //Matrix<T> _distance_matrix;
 public:
     Graph(edge* begin, edge* end, bool directed = false, bool base1 = false); //list of edges
-    Graph(vector<neighbourhood> adjv);
-    Graph(attributes degree, attributes color, vector<string> label, vector<string> ID);
+    Graph(vector<neighbourhood> adjv, bool directed = false);
+    Graph(attributes degree, attributes color, vector<string> label, vector<string> ID, bool directed = false);
     Graph(string filename); //.dot (using nodesoup's demo) and .tgf
     //Graph(Matrix<T> dm); //adjacency or distance matrix
     void save(string filename);
     
+    bool directed();
     bool has_edge(edge e);
     void remove_edge(edge e);
     void add_edge(edge e);

@@ -1,12 +1,23 @@
 #include "grypho.hpp"
 
-Graph::Graph(vector<neighbourhood> adjv) : _adjacency_vector(adjv), _color(adjv.size(), 0), _degree(adjv.size(), 0), _label(adjv.size())
+Graph::Graph(vector<neighbourhood> adjv, bool directed) :
+    _directed(directed),
+    _adjacency_vector(adjv),
+    _color(adjv.size(), 0),
+    _degree(adjv.size(), 0),
+    _label(adjv.size())
     {
         for(size_t i = 0; i < _adjacency_vector.size(); ++i){
             _degree[i] = adjv[i].size();
         }
     }
-Graph::Graph(attributes degree, attributes color, vector<string> label, vector<string> ID) : _color(color), _degree(degree), _label(label), _ID(ID) //partial initialization
+Graph::Graph(attributes degree, attributes color, vector<string> label, vector<string> ID, bool directed) :
+    _directed(directed),
+    _color(color),
+    _degree(degree),
+    _label(label),
+    _ID(ID)
+  //partial initialization
     {
         _adjacency_vector.resize(degree.size());
     }
@@ -87,7 +98,7 @@ const vector< neighbourhood >& Graph::V() { return _adjacency_vector; };
 //Matrix<T> getAdjMatrix() { return _distance_matrix & 1; };
 //Matrix<T> getDistMatrix() { return _distance_matrix; };
 
-Graph::Graph(edge* begin, edge* end, bool directed, bool base1)
+Graph::Graph(edge* begin, edge* end, bool directed, bool base1) : _directed(directed)
 {
     vertex size = 0;
     for(edge* it = begin; it != end; ++it){
@@ -134,4 +145,9 @@ const vector<string>& Graph::labels()
 const vector<string>& Graph::ids()
 {
     return _ID;
+}
+
+bool Graph::directed()
+{
+    return _directed;
 }
