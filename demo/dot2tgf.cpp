@@ -11,5 +11,6 @@ int main(int argc, char* argv[])
   string source_filename(argv[1]);
   string tgf_filename(argv[2]);
   Graph g(source_filename);
+  g(1);
   g.save(tgf_filename);
 }

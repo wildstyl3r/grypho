@@ -54,7 +54,7 @@ public:
     value max_degree();
     //Graph permuteRandom(unsigned seed);
     //Graph permute(std::vector<T> permutation);
-    inline neighbourhood& operator()(const vertex v);
+    neighbourhood& operator()(vertex v);
     const vector< neighbourhood >& V();
     //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
     //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };

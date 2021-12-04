@@ -78,7 +78,7 @@ value Graph::max_degree() { return *std::max_element(_degree.begin(), _degree.en
 
 //Graph permuteRandom(unsigned seed);
 //Graph permute(std::vector<T> permutation);
-neighbourhood& Graph::operator()(const vertex v) { return _adjacency_vector[v]; };
+neighbourhood& Graph::operator()(vertex v) { return _adjacency_vector[v]; };
 
 const vector< neighbourhood >& Graph::V() { return _adjacency_vector; };
 
