@@ -126,12 +126,12 @@ string Graph::label(vertex v)
     return _label[v];
 }
 
-const vector<string>& labels()
+const vector<string>& Graph::labels()
 {
     return _label;
 }
 
-const vector<string>& ids()
+const vector<string>& Graph::ids()
 {
     return _ID;
 }
