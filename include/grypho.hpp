@@ -32,7 +32,7 @@ protected:
 public:
     Graph(edge* begin, edge* end, bool directed = false, bool base1 = false); //list of edges
     Graph(vector<neighbourhood> adjv);
-    Graph(attributes degree);
+    Graph(attributes degree, attributes color, vector<string> label, vector<string> ID);
     Graph(string filename); //.dot (using nodesoup's demo) and .tgf
     //Graph(Matrix<T> dm); //adjacency or distance matrix
     void save(string filename);
@@ -48,7 +48,9 @@ public:
     vertex color(vertex v);
     vertex set_color(vertex v, value c);
     string id(vertex v);
+    const vector<string>& ids();
     string label(vertex v);
+    const vector<string>& labels();
     attributes& colors();
     size_t count_colors();
     value max_degree();

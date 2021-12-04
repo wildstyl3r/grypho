@@ -6,7 +6,7 @@ Graph::Graph(vector<neighbourhood> adjv) : _adjacency_vector(adjv), _color(adjv.
             _degree[i] = adjv[i].size();
         }
     }
-Graph::Graph(attributes degree) : _color(degree.size(), 0), _degree(degree), _label(degree.size()) //partial initialization
+Graph::Graph(attributes degree, attributes color, vector<string> label, vector<string> ID) : _color(color), _degree(degree), _label(label), _ID(ID) //partial initialization
     {
         _adjacency_vector.resize(degree.size());
     }
@@ -124,4 +124,14 @@ Graph::Graph(edge* begin, edge* end, bool directed, bool base1)
 string Graph::label(vertex v)
 {
     return _label[v];
+}
+
+const vector<string>& labels()
+{
+    return _label;
+}
+
+const vector<string>& ids()
+{
+    return _ID;
 }
