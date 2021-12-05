@@ -139,7 +139,7 @@ Graph::Graph(edge* begin, edge* end, bool directed, bool base1) : _directed(dire
     }
 }
 
-Graph::Graph(vector<edge> edges, bool directed, bool base1) : _directed(directed)
+Graph::Graph(vector<edge>& edges, bool directed, bool base1) : _directed(directed)
 {
     vertex size = 0;
     for(auto it = edges.begin(); it != edges.end(); ++it){
