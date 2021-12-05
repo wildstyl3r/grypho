@@ -161,5 +161,5 @@ bool Graph::directed()
 
 bool Graph::has(vertex v)
 {
-  return 0 <= v && v <= _adjacency_vector.size();
+  return 0 <= v && v < _adjacency_vector.size();
 }
