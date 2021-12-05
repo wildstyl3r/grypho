@@ -31,7 +31,6 @@ protected:
     vector<string> _ID;
     //Matrix<T> _distance_matrix;
 public:
-    Graph(edge* begin, edge* end, bool directed = false, bool base1 = false); //list of edges
     Graph(vector<edge>& edges, bool directed = false, bool base1 = false);
     Graph(vector<neighbourhood> adjv, bool directed = false);
     Graph(attributes degree, attributes color, vector<string> label, vector<string> ID, bool directed = false);

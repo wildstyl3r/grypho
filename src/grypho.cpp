@@ -105,43 +105,15 @@ const vector< neighbourhood >& Graph::V() { return _adjacency_vector; };
 //Matrix<T> getAdjMatrix() { return _distance_matrix & 1; };
 //Matrix<T> getDistMatrix() { return _distance_matrix; };
 
-Graph::Graph(edge* begin, edge* end, bool directed, bool base1) : _directed(directed)
-{
-    vertex size = 0;
-    for(edge* it = begin; it != end; ++it){
-	vertex v = it->first - base1, u = it->second - base1;
-	
-	_adjacency_vector[v].insert(u);
-	if (!directed) {
-	    _adjacency_vector[u].insert(v);
-	}
-	
-	vertex vmax = std::max(v, u);
-	if (vmax+1 > size) {
-	    size = vmax+1;
-	}
-    }
-
-    //_distance_matrix.resize(size);
-    _degree.resize(size, 0);
-    _color.resize(size, 0);
-    _label.resize(size);
-
-    for(edge* it = begin; it != end; ++it){
-	vertex v = it->first - base1, u = it->second - base1;
-
-	_degree[v]++;
-	//_distance_matrix[v][u] = 1;
-	if (!directed) {
-	    _degree[u]++;
-	    //_distance_matrix[v][u] = 1;
-	}
-    }
-}
-
 Graph::Graph(vector<edge>& edges, bool directed, bool base1) : _directed(directed)
 {
     vertex size = 0;
+    for(auto edge : edges){
+        size = std::max(size, edge.first);
+        size = std::max(size, edge.second);
+    }
+    size++;
+    _adjacency_vector.resize(size);
     for(auto it = edges.begin(); it != edges.end(); ++it){
         vertex v = it->first - base1, u = it->second - base1;
 
