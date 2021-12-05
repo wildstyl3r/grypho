@@ -139,6 +139,41 @@ Graph::Graph(edge* begin, edge* end, bool directed, bool base1) : _directed(dire
     }
 }
 
+Graph::Graph(vector<edge> edges, bool directed, bool base1) : _directed(directed)
+{
+    vertex size = 0;
+    for(auto it = edges.begin(); it != edges.end(); ++it){
+        vertex v = it->first - base1, u = it->second - base1;
+
+        _adjacency_vector[v].insert(u);
+        if (!directed) {
+            _adjacency_vector[u].insert(v);
+        }
+
+        vertex vmax = std::max(v, u);
+        if (vmax+1 > size) {
+            size = vmax+1;
+        }
+    }
+
+    //_distance_matrix.resize(size);
+    _degree.resize(size, 0);
+    _color.resize(size, 0);
+    _label.resize(size);
+
+    for(auto it = edges.begin(); it != edges.end(); ++it){
+        vertex v = it->first - base1, u = it->second - base1;
+
+        _degree[v]++;
+        //_distance_matrix[v][u] = 1;
+        if (!directed) {
+            _degree[u]++;
+            //_distance_matrix[v][u] = 1;
+        }
+    }
+}
+
+
 string Graph::label(vertex v)
 {
     return _label[v];
