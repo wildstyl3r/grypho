@@ -11,16 +11,6 @@ Graph::Graph(vector<neighbourhood> adjv, bool directed) :
             _degree[i] = adjv[i].size();
         }
     }
-Graph::Graph(attributes degree, attributes color, vector<string> label, vector<string> ID, bool directed) :
-    _directed(directed),
-    _color(color),
-    _degree(degree),
-    _label(label),
-    _ID(ID)
-  //partial initialization
-    {
-        _adjacency_vector.resize(degree.size());
-    }
 
 
 bool Graph::has(edge e)

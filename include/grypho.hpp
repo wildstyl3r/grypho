@@ -33,7 +33,7 @@ protected:
 public:
     Graph(vector<edge>& edges, bool directed = false, bool base1 = false);
     Graph(vector<neighbourhood> adjv, bool directed = false);
-    Graph(attributes degree, attributes color, vector<string> label, vector<string> ID, bool directed = false);
+    Graph(){};
     Graph(string filename); //.dot (using nodesoup's demo) and .tgf
     //Graph(Matrix<T> dm); //adjacency or distance matrix
     void save(string filename);
