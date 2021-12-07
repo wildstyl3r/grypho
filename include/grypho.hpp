@@ -48,14 +48,14 @@ public:
     //void swap_name(vertex v, vertex u);
     value deg(vertex v);
     attributes& degrees();
-    vertex color(vertex v);
+    virtual vertex color(vertex v);
     vertex set_color(vertex v, value c);
     string id(vertex v);
     const vector<string>& ids();
-    string label(vertex v);
+    virtual string label(vertex v);
     const vector<string>& labels();
-    attributes& colors();
-    size_t count_colors();
+    virtual attributes& colors();
+    virtual size_t count_colors();
     value max_degree();
     //Graph permuteRandom(unsigned seed);
     //Graph permute(std::vector<T> permutation);
