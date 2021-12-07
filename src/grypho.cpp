@@ -13,7 +13,7 @@ Graph::Graph(vector<neighbourhood> adjv, bool directed) :
     }
 
 
-bool Graph::has(edge e)
+bool Graph::has(edge e) const
 {
   return _adjacency_vector[e.first].count(e.second);
 }
@@ -53,15 +53,15 @@ void Graph::add_vertex(neighbourhood adj)
 }
 
 
-value Graph::deg(vertex v) { return _degree[v]; }
+value Graph::deg(vertex v) const { return _degree[v]; }
 
 attributes& Graph::degrees() { return _degree; }
 
-vertex Graph::color(vertex v) { return _color[v]; }
+vertex Graph::color(vertex v) const { return _color[v]; }
 
 vertex Graph::set_color(vertex v, value c) { return _color[v] = c; }
 
-string Graph::id(vertex v)
+string Graph::id(vertex v) const
     {
         if (_ID.size() > v){
             return _ID[v];
@@ -73,7 +73,7 @@ string Graph::id(vertex v)
 
 attributes& Graph::colors() { return _color; }
 
-size_t Graph::count_colors()
+size_t Graph::count_colors() const
 {
   unordered_set<value> colors;
   for(auto color :_color){
@@ -82,7 +82,7 @@ size_t Graph::count_colors()
   return colors.size();
 }
 
-value Graph::max_degree() { return *std::max_element(_degree.begin(), _degree.end()); }
+value Graph::max_degree()  const{ return *std::max_element(_degree.begin(), _degree.end()); }
 
 //Graph permuteRandom(unsigned seed);
 //Graph permute(std::vector<T> permutation);
@@ -136,7 +136,7 @@ Graph::Graph(vector<edge>& edges, bool directed, bool base1) : _directed(directe
 }
 
 
-string Graph::label(vertex v)
+string Graph::label(vertex v) const
 {
     return _label[v];
 }
@@ -151,12 +151,12 @@ const vector<string>& Graph::ids()
     return _ID;
 }
 
-bool Graph::directed()
+bool Graph::directed() const
 {
     return _directed;
 }
 
-bool Graph::has(vertex v)
+bool Graph::has(vertex v) const
 {
   return 0 <= v && v < _adjacency_vector.size();
 }

@@ -38,25 +38,25 @@ public:
     //Graph(Matrix<T> dm); //adjacency or distance matrix
     void save(string filename);
     
-    bool directed();
-    bool has(edge e);
-    bool has(vertex v);
+    bool directed() const;
+    bool has(edge e) const;
+    bool has(vertex v) const;
     void remove_edge(edge e);
     void add_edge(edge e);
     //void remove_vertex(vertex v);
     void add_vertex(neighbourhood adj);
     //void swap_name(vertex v, vertex u);
-    value deg(vertex v);
+    value deg(vertex v) const;
     attributes& degrees();
-    virtual vertex color(vertex v);
+    virtual vertex color(vertex v) const;
     vertex set_color(vertex v, value c);
-    string id(vertex v);
+    string id(vertex v) const;
     const vector<string>& ids();
-    virtual string label(vertex v);
+    virtual string label(vertex v) const;
     const vector<string>& labels();
     virtual attributes& colors();
-    virtual size_t count_colors();
-    value max_degree();
+    virtual size_t count_colors() const;
+    value max_degree() const;
     //Graph permuteRandom(unsigned seed);
     //Graph permute(std::vector<T> permutation);
     neighbourhood& operator()(vertex v);
