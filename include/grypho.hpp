@@ -50,7 +50,7 @@ public:
     attributes& degrees();
     virtual vertex color(vertex v) const;
     vertex set_color(vertex v, value c);
-    string id(vertex v) const;
+    virtual string id(vertex v) const;
     const vector<string>& ids();
     virtual string label(vertex v) const;
     const vector<string>& labels();
