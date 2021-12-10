@@ -30,6 +30,7 @@ protected:
     vector<string> _ID;
     //Matrix<T> _distance_matrix;
 public:
+    static constexpr char format[] = "Graph format: (*.tgf *.cgf *.dot)";
     Graph(vector<edge>& edges, bool directed = false, bool base1 = false);
     Graph(vector<neighbourhood> adjv, bool directed = false);
     Graph(){};

@@ -9,7 +9,8 @@ Graph::Graph(string filename)//reading tgf and dot
   using std::cerr;
   string file_ext = filename.substr(filename.size()-4);
   if (file_ext != ".dot" &&
-      file_ext != ".tgf") {
+      file_ext != ".tgf" &&
+      file_ext != ".cgf") {
       cerr << "Error: file format is unsupported";
     }
 
