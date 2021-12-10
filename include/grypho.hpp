@@ -26,7 +26,6 @@ protected:
     bool _directed;
     vector<neighbourhood> _adjacency_vector;
     attributes _color;
-    attributes _degree;
     vector<string> _label;
     vector<string> _ID;
     //Matrix<T> _distance_matrix;
@@ -47,7 +46,7 @@ public:
     void add_vertex(neighbourhood adj);
     //void swap_name(vertex v, vertex u);
     value deg(vertex v) const;
-    attributes& degrees();
+    //attributes& degrees();
     virtual vertex color(vertex v) const;
     vertex set_color(vertex v, value c);
     virtual string id(vertex v) const;

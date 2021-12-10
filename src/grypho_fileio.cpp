@@ -16,7 +16,7 @@ Graph::Graph(string filename)//reading tgf and dot
   std::ifstream ifs(filename);
   if (!ifs.good()) {
       cerr << "Could not open file \"" << filename << "\"\n";
-      exit(EXIT_FAILURE);
+      return;
     }
 
 
@@ -74,12 +74,7 @@ Graph::Graph(string filename)//reading tgf and dot
 
 
       _color.resize(_adjacency_vector.size(), 0);
-      _degree.resize(_adjacency_vector.size(), 0);
       _label.resize(_adjacency_vector.size());
-
-      for(size_t i = 0; i < _adjacency_vector.size(); ++i){
-          _degree[i] = _adjacency_vector[i].size();
-        }
 
     } else if (file_ext == ".tgf") {//tgf
 
@@ -115,7 +110,6 @@ Graph::Graph(string filename)//reading tgf and dot
         }
 
       _adjacency_vector.resize(i);
-      _degree.resize(i, 0);
 
       while(!ifs.eof()){
           std::getline(ifs, line);
@@ -130,9 +124,27 @@ Graph::Graph(string filename)//reading tgf and dot
             } else {
               _adjacency_vector[names[v]].insert(names[u]);
               _adjacency_vector[names[u]].insert(names[v]);
-              _degree[names[v]]++;
-              _degree[names[u]]++;
             }
+        }
+    } else if (file_ext == ".cgf") {//cgf
+
+      using sstream = std::stringstream;
+
+      while(!ifs.eof()){
+          std::getline(ifs, line);
+          if (line == "") break;
+          sstream e(line);
+          string v, u;
+          e >> v >> u;
+
+          if (names.count(v) == 0){
+              names[v] = names.size();
+          }
+          if (names.count(u) == 0){
+              names[u] = names.size();
+          }
+          _adjacency_vector[names[v]].insert(names[u]);
+          _adjacency_vector[names[u]].insert(names[v]);
         }
     }
 }

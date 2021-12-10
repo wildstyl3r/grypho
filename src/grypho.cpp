@@ -4,13 +4,8 @@ Graph::Graph(vector<neighbourhood> adjv, bool directed) :
     _directed(directed),
     _adjacency_vector(adjv),
     _color(adjv.size(), 0),
-    _degree(adjv.size(), 0),
     _label(adjv.size())
-    {
-        for(size_t i = 0; i < _adjacency_vector.size(); ++i){
-            _degree[i] = adjv[i].size();
-        }
-    }
+    {}
 
 
 bool Graph::has(edge e) const
@@ -23,8 +18,6 @@ void Graph::remove_edge(edge e)
 {
   _adjacency_vector[e.first].erase(e.second);
   _adjacency_vector[e.second].erase(e.first);
-  _degree[e.first] = _adjacency_vector[e.first].size();
-  _degree[e.second] = _adjacency_vector[e.second].size();
 }
 
 
@@ -32,8 +25,6 @@ void Graph::add_edge(edge e)
 {
   _adjacency_vector[e.first].insert(e.second);
   _adjacency_vector[e.second].insert(e.first);
-  _degree[e.first] = _adjacency_vector[e.first].size();
-  _degree[e.second] = _adjacency_vector[e.second].size();
 }
 
 
@@ -44,18 +35,16 @@ void Graph::add_vertex(neighbourhood adj)
   if(!_directed){
       for(vertex u : adj){
           _adjacency_vector[u].insert(v);
-          _degree[u]++;
       }
   }
-  _degree.push_back(_adjacency_vector.back().size());
   _color.push_back(0);
   _label.push_back("");
 }
 
 
-value Graph::deg(vertex v) const { return _degree[v]; }
+value Graph::deg(vertex v) const { return _adjacency_vector[v].size(); }
 
-attributes& Graph::degrees() { return _degree; }
+//attributes& Graph::degrees() { return _degree; }
 
 vertex Graph::color(vertex v) const { return _color[v]; }
 
@@ -82,7 +71,7 @@ size_t Graph::count_colors() const
   return colors.size();
 }
 
-value Graph::max_degree()  const{ return *std::max_element(_degree.begin(), _degree.end()); }
+value Graph::max_degree()  const{ return std::max_element(_adjacency_vector.begin(), _adjacency_vector.end())->size(); }
 
 //Graph permuteRandom(unsigned seed);
 //Graph permute(std::vector<T> permutation);
@@ -119,20 +108,8 @@ Graph::Graph(vector<edge>& edges, bool directed, bool base1) : _directed(directe
     }
 
     //_distance_matrix.resize(size);
-    _degree.resize(size, 0);
     _color.resize(size, 0);
     _label.resize(size);
-
-    for(auto it = edges.begin(); it != edges.end(); ++it){
-        vertex v = it->first - base1, u = it->second - base1;
-
-        _degree[v]++;
-        //_distance_matrix[v][u] = 1;
-        if (!directed) {
-            _degree[u]++;
-            //_distance_matrix[v][u] = 1;
-        }
-    }
 }
 
 
