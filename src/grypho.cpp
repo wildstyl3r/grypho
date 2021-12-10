@@ -71,7 +71,13 @@ size_t Graph::count_colors() const
   return colors.size();
 }
 
-value Graph::max_degree()  const{ return std::max_element(_adjacency_vector.begin(), _adjacency_vector.end())->size(); }
+value Graph::max_degree()  const{
+    value res = 0;
+    for(auto& n : _adjacency_vector){
+        res = std::max(res, (value)n.size());
+    }
+    return res;
+}
 
 //Graph permuteRandom(unsigned seed);
 //Graph permute(std::vector<T> permutation);
