@@ -150,6 +150,7 @@ Graph::Graph(string filename)//reading tgf and dot
           _adjacency_vector[names[u]].insert(names[v]);
         }
       _color.resize(_adjacency_vector.size(), 0);
+      _label.resize(_adjacency_vector.size());
     }
 }
 
