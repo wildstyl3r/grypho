@@ -139,14 +139,17 @@ Graph::Graph(string filename)//reading tgf and dot
 
           if (names.count(v) == 0){
               names[v] = names.size();
+              _ID.push_back(v);
           }
           if (names.count(u) == 0){
               names[u] = names.size();
+              _ID.push_back(u);
           }
           _adjacency_vector.resize(names.size());
           _adjacency_vector[names[v]].insert(names[u]);
           _adjacency_vector[names[u]].insert(names[v]);
         }
+      _color.resize(_adjacency_vector.size(), 0);
     }
 }
 
