@@ -143,3 +143,5 @@ bool Graph::has(vertex v) const
 {
   return 0 <= v && v < _adjacency_vector.size();
 }
+
+neighbourhood& Graph::V(vertex v) { return _adjacency_vector[v]; };

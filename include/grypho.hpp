@@ -60,6 +60,7 @@ public:
     //Graph permuteRandom(unsigned seed);
     //Graph permute(std::vector<T> permutation);
     neighbourhood& operator()(vertex v);
+    neighbourhood& V(vertex v);
     const vector< neighbourhood >& V();
     //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
     //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };
