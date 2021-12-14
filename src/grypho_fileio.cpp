@@ -7,12 +7,8 @@
 Graph::Graph(string filename)//reading tgf and dot
 {
   using std::cerr;
+  using sstream = std::stringstream;
   string file_ext = filename.substr(filename.size()-4);
-  if (file_ext != ".dot" &&
-      file_ext != ".tgf" &&
-      file_ext != ".cgf") {
-      cerr << "Error: file format is unsupported";
-    }
 
   std::ifstream ifs(filename);
   if (!ifs.good()) {
@@ -77,9 +73,7 @@ Graph::Graph(string filename)//reading tgf and dot
       _color.resize(_adjacency_vector.size(), 0);
       _label.resize(_adjacency_vector.size());
 
-    } else if (file_ext == ".tgf") {//tgf
-
-      using sstream = std::stringstream;
+    } else if (file_ext == ".tgf") {//tgf      
 
       std::unordered_map<string, value> colors;
 
@@ -129,8 +123,6 @@ Graph::Graph(string filename)//reading tgf and dot
         }
     } else if (file_ext == ".cgf") {//cgf
 
-      using sstream = std::stringstream;
-
       while(!ifs.eof()){
           std::getline(ifs, line);
           if (line == "") break;
@@ -149,10 +141,35 @@ Graph::Graph(string filename)//reading tgf and dot
           _adjacency_vector.resize(names.size());
           _adjacency_vector[names[v]].insert(names[u]);
           _adjacency_vector[names[u]].insert(names[v]);
-        }
+      }
       _color.resize(_adjacency_vector.size(), 0);
       _label.resize(_adjacency_vector.size());
-    }
+  } else {
+
+      while(!ifs.eof()){
+          std::getline(ifs, line);
+          if (line == "") break;
+          sstream e(line);
+          string type, v, u;
+          e >> type >> v >> u;
+
+          if (type == "e" && v != "" && u != ""){
+              if (names.count(v) == 0){
+                  names[v] = names.size();
+                  _ID.push_back(v);
+              }
+              if (names.count(u) == 0){
+                  names[u] = names.size();
+                  _ID.push_back(u);
+              }
+              _adjacency_vector.resize(names.size());
+              _adjacency_vector[names[v]].insert(names[u]);
+              _adjacency_vector[names[u]].insert(names[v]);
+          }
+      }
+      _color.resize(_adjacency_vector.size(), 0);
+      _label.resize(_adjacency_vector.size());
+  }
 }
 
 
