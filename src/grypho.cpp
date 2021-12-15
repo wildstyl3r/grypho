@@ -30,7 +30,7 @@ void Graph::add_edge(edge e)
 
 void Graph::add_vertex(neighbourhood adj)
 {
-  vertex v = _adjacency_vector.size();
+  vertex v = size();
   _adjacency_vector.push_back(adj);
   if(!_directed){
       for(vertex u : adj){
@@ -98,7 +98,7 @@ Graph::Graph(vector<edge>& edges, bool directed, bool base1) : _directed(directe
         size = std::max(size, edge.second);
     }
     size++;
-    _adjacency_vector.resize(size);
+    resize(size);
     for(auto it = edges.begin(); it != edges.end(); ++it){
         vertex v = it->first - base1, u = it->second - base1;
 
@@ -114,8 +114,6 @@ Graph::Graph(vector<edge>& edges, bool directed, bool base1) : _directed(directe
     }
 
     //_distance_matrix.resize(size);
-    _color.resize(size, 0);
-    _label.resize(size);
 }
 
 
@@ -141,7 +139,35 @@ bool Graph::directed() const
 
 bool Graph::has(vertex v) const
 {
-  return 0 <= v && v < _adjacency_vector.size();
+    return 0 <= v && v < size();
 }
 
 neighbourhood& Graph::V(vertex v) { return _adjacency_vector[v]; };
+
+void Graph::resize(size_t size){
+    _adjacency_vector.resize(size);
+    _ID.resize(size);
+    _color.resize(size, 0);
+    _label.resize(size);
+}
+
+size_t Graph::size() const{
+    return _adjacency_vector.size();
+}
+
+Graph Graph::operator!() const
+{
+    Graph res;
+    res.resize(size());
+    for(vertex v = 0; v < size(); ++v)
+        for(vertex u = 0; u < size(); ++u){
+            if(_adjacency_vector[v].count(u) == 0){
+                res._adjacency_vector[v].insert(u);
+            }
+        }
+    for(vertex v = 0; v < size(); ++v){
+        res._color[v] = _color[v];
+        res._ID[v]    = _ID[v];
+        res._label[v] = _label[v];
+    }
+}

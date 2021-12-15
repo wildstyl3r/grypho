@@ -62,6 +62,9 @@ public:
     neighbourhood& operator()(vertex v);
     neighbourhood& V(vertex v);
     const vector< neighbourhood >& V();
+    Graph operator!() const;
+    void resize(size_t size);
+    size_t size() const;
     //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
     //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };
     //Matrix<T> getAdjMatrix() { return _distance_matrix & 1; };
