@@ -178,7 +178,7 @@ double Graph::weight(edge e) const
     if (!_directed){
         e = {std::min(e.first, e.second), std::max(e.first, e.second)};
     }
-    return _weight.count(e) == 0 ? 1 : _weight[e];
+    return _weight.count(e) == 0 ? 1 : _weight.at(e);
 }
 
 void Graph::set_weight(edge e, double v){
