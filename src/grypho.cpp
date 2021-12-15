@@ -172,3 +172,22 @@ Graph Graph::operator!() const
     }
     return res;
 }
+
+double Graph::weight(edge e) const
+{
+    if (!_directed){
+        e = {std::min(e.first, e.second), std::max(e.first, e.second)};
+    }
+    return _weight.count(e) == 0 ? 1 : _weight[e];
+}
+
+void Graph::set_weight(edge e, double v){
+    if (!_directed) {
+        e = {std::min(e.first, e.second), std::max(e.first, e.second)};
+    }
+    if (v == 1 && _weight.count(e)){
+        _weight.erase(e);
+    } else {
+        _weight[e] = v;
+    }
+}

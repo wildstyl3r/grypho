@@ -28,6 +28,7 @@ protected:
     attributes _color;
     vector<string> _label;
     vector<string> _ID;
+    map<edge, double> _weight;
     //Matrix<T> _distance_matrix;
 public:
     static constexpr char format[] = "Graph format: (*.tgf *.cgf *.dot)";
@@ -57,6 +58,8 @@ public:
     virtual attributes& colors();
     virtual size_t count_colors() const;
     value max_degree() const;
+    double weight(edge e) const;
+    void set_weight(edge e, double v);
     //Graph permuteRandom(unsigned seed);
     //Graph permute(std::vector<T> permutation);
     neighbourhood& operator()(vertex v);
