@@ -170,4 +170,5 @@ Graph Graph::operator!() const
         res._ID[v]    = _ID[v];
         res._label[v] = _label[v];
     }
+    return res;
 }
