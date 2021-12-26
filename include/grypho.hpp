@@ -51,8 +51,8 @@ public:
     virtual string label(vertex_leg& v) const;
     virtual value color(vertex_leg& v) const;
     value set_color(vertex_leg& v, value c);
-    neighbourhood& operator()(vertex_leg& v);
-    neighbourhood& V(vertex_leg& v);
+    const neighbourhood& operator()(vertex_leg& v) const;
+    const neighbourhood& V(vertex_leg& v) const;
 
     bool directed() const;
     bool has(edge& e) const;
@@ -76,9 +76,9 @@ public:
     void set_weight(edge e, double v);
     //Graph permuteRandom(unsigned seed);
     //Graph permute(std::vector<T> permutation);
-    neighbourhood& operator()(vertex& v);
-    neighbourhood& V(vertex& v);
-    const adj_t& V();
+    const neighbourhood& operator()(vertex& v) const;
+    const neighbourhood& V(vertex& v) const;
+    const adj_t& V() const;
     Graph operator!() const;
     Graph N(vertex& v) const;
     size_t size() const;

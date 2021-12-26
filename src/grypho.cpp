@@ -86,9 +86,9 @@ value Graph::max_degree()  const{
 
 //Graph permuteRandom(unsigned seed);
 //Graph permute(std::vector<T> permutation);
-neighbourhood& Graph::operator()(vertex& v) { return _adjacency_vector[v]; };
+const neighbourhood& Graph::operator()(vertex& v) const { return _adjacency_vector.at(v); };
 
-const adj_t& Graph::V() { return _adjacency_vector; };
+const adj_t& Graph::V() const { return _adjacency_vector; };
 
 //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
 //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };
@@ -142,7 +142,7 @@ bool Graph::has(vertex& v) const
     return _adjacency_vector.count(v);
 }
 
-neighbourhood& Graph::V(vertex& v) { return _adjacency_vector[v]; };
+const neighbourhood& Graph::V(vertex& v) const { return _adjacency_vector.at(v); };
 
 size_t Graph::size() const{
     return _adjacency_vector.size();
@@ -209,12 +209,12 @@ value Graph::set_color(vertex_leg& v, value c)
     vertex v1 = std::to_string(v);
     return set_color(v1, c);
 }
-neighbourhood& Graph::operator()(vertex_leg& v)
+const neighbourhood& Graph::operator()(vertex_leg& v) const
 {
     vertex v1 = std::to_string(v);
     return operator()(v1);
 }
-neighbourhood& Graph::V(vertex_leg& v)
+const neighbourhood& Graph::V(vertex_leg& v) const
 {
     vertex v1 = std::to_string(v);
     return V(v1);
