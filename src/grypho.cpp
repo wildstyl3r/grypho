@@ -158,8 +158,8 @@ Graph Graph::operator!() const
             }
         }
     for(auto& [v, _] : _adjacency_vector){
-        res._color[v] = _color.at(v);
-        res._label[v] = _label.at(v);
+        res._color[v] = color(v);
+        res._label[v] = label(v);
     }
     return res;
 }
@@ -243,8 +243,8 @@ Graph Graph::N(const vertex& v) const
         }
     }
     for(auto& w : _adjacency_vector.at(v)){
-        res._color[v] = _color.at(w);
-        res._label[v] = _label.at(w);
+        res._color[v] = color(w);
+        res._label[v] = label(w);
     }
     return res;
 }
