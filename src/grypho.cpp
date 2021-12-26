@@ -70,8 +70,8 @@ attributes& Graph::colors() { return _color; }
 size_t Graph::count_colors() const
 {
   unordered_set<value> colors;
-  for(auto& [_, c] :_color){
-      colors.insert(c);
+  for(auto& [v, _] : V()){
+      colors.insert(color(v));
     }
   return colors.size();
 }
