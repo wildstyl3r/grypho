@@ -46,28 +46,28 @@ public:
     void save(string filename);
     
     //legacy
-    bool has(edge_leg& e) const;
-    bool has(vertex_leg& v) const;
-    virtual string label(vertex_leg& v) const;
-    virtual value color(vertex_leg& v) const;
-    value set_color(vertex_leg& v, value c);
-    const neighbourhood& operator()(vertex_leg& v) const;
-    const neighbourhood& V(vertex_leg& v) const;
+    bool has(edge_leg e) const;
+    bool has(vertex_leg v) const;
+    virtual string label(vertex_leg v) const;
+    virtual value color(vertex_leg v) const;
+    value set_color(vertex_leg v, value c);
+    const neighbourhood& operator()(vertex_leg v) const;
+    const neighbourhood& V(vertex_leg v) const;
 
     bool directed() const;
-    bool has(edge& e) const;
-    bool has(vertex& v) const;
-    void remove_edge(edge& e);
-    void add_edge(edge& e);
+    bool has(edge e) const;
+    bool has(const vertex& v) const;
+    void remove_edge(edge e);
+    void add_edge(edge e);
     void remove_vertex(vertex v);
     void add_vertex(neighbourhood adj);
     void add_vertex(vertex v, neighbourhood adj = {}, value c = 0, string label = "");
-    value deg(vertex& v) const;
+    value deg(const vertex& v) const;
     //attributes& degrees();
-    virtual value color(vertex& v) const;
+    virtual value color(const vertex& v) const;
     value set_color(vertex& v, value c);
     vector<vertex> ids() const;
-    virtual string label(vertex& v) const;
+    virtual string label(const vertex& v) const;
     const unordered_map<vertex, string>& labels();
     virtual attributes& colors();
     virtual size_t count_colors() const;
@@ -76,11 +76,11 @@ public:
     void set_weight(edge e, double v);
     //Graph permuteRandom(unsigned seed);
     //Graph permute(std::vector<T> permutation);
-    const neighbourhood& operator()(vertex& v) const;
-    const neighbourhood& V(vertex& v) const;
+    const neighbourhood& operator()(const vertex& v) const;
+    const neighbourhood& V(const vertex& v) const;
     const adj_t& V() const;
     Graph operator!() const;
-    Graph N(vertex& v) const;
+    Graph N(const vertex& v) const;
     size_t size() const;
     //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
     //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };

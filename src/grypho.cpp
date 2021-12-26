@@ -6,13 +6,13 @@ Graph::Graph(adj_t adjv, bool directed) :
 {}
 
 
-bool Graph::has(edge& e) const
+bool Graph::has(edge e) const
 {
   return _adjacency_vector.at(e.first).count(e.second);
 }
 
 
-void Graph::remove_edge(edge& e)
+void Graph::remove_edge(edge e)
 {
   _adjacency_vector[e.first].erase(e.second);
   _adjacency_vector[e.second].erase(e.first);
@@ -20,7 +20,7 @@ void Graph::remove_edge(edge& e)
 }
 
 
-void Graph::add_edge(edge& e)
+void Graph::add_edge(edge e)
 {
   _adjacency_vector[e.first].insert(e.second);
   _adjacency_vector[e.second].insert(e.first);
@@ -46,11 +46,11 @@ void Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
 }
 
 
-value Graph::deg(vertex& v) const { return _adjacency_vector.at(v).size(); }
+value Graph::deg(const vertex& v) const { return _adjacency_vector.at(v).size(); }
 
 //attributes& Graph::degrees() { return _degree; }
 
-value Graph::color(vertex& v) const {
+value Graph::color(const vertex& v) const {
     if(_color.count(v)){
         return _color.at(v);
     } else {
@@ -86,7 +86,7 @@ value Graph::max_degree()  const{
 
 //Graph permuteRandom(unsigned seed);
 //Graph permute(std::vector<T> permutation);
-const neighbourhood& Graph::operator()(vertex& v) const { return _adjacency_vector.at(v); };
+const neighbourhood& Graph::operator()(const vertex& v) const { return _adjacency_vector.at(v); };
 
 const adj_t& Graph::V() const { return _adjacency_vector; };
 
@@ -109,7 +109,7 @@ Graph::Graph(vector<edge>& edges, bool directed) : _directed(directed)
 }
 
 
-string Graph::label(vertex& v) const
+string Graph::label(const vertex& v) const
 {
     if(_label.count(v)){
         return _label.at(v);
@@ -137,12 +137,12 @@ bool Graph::directed() const
     return _directed;
 }
 
-bool Graph::has(vertex& v) const
+bool Graph::has(const vertex& v) const
 {
     return _adjacency_vector.count(v);
 }
 
-const neighbourhood& Graph::V(vertex& v) const { return _adjacency_vector.at(v); };
+const neighbourhood& Graph::V(const vertex& v) const { return _adjacency_vector.at(v); };
 
 size_t Graph::size() const{
     return _adjacency_vector.size();
@@ -185,36 +185,36 @@ void Graph::set_weight(edge e, double v)
 }
 
 
-bool Graph::has(edge_leg& e) const
+bool Graph::has(edge_leg e) const
 {
     edge e1 = {std::to_string(e.first), std::to_string(e.second)};
     return has(e1);
 }
-bool Graph::has(vertex_leg& v) const{
+bool Graph::has(vertex_leg v) const{
     vertex v1 = std::to_string(v);
     return has(v1);
 }
-string Graph::label(vertex_leg& v) const
+string Graph::label(vertex_leg v) const
 {
     vertex v1 = std::to_string(v);
     return label(v1);
 }
-value Graph::color(vertex_leg& v) const
+value Graph::color(vertex_leg v) const
 {
     vertex v1 = std::to_string(v);
     return color(v1);
 }
-value Graph::set_color(vertex_leg& v, value c)
+value Graph::set_color(vertex_leg v, value c)
 {
     vertex v1 = std::to_string(v);
     return set_color(v1, c);
 }
-const neighbourhood& Graph::operator()(vertex_leg& v) const
+const neighbourhood& Graph::operator()(vertex_leg v) const
 {
     vertex v1 = std::to_string(v);
     return operator()(v1);
 }
-const neighbourhood& Graph::V(vertex_leg& v) const
+const neighbourhood& Graph::V(vertex_leg v) const
 {
     vertex v1 = std::to_string(v);
     return V(v1);
@@ -231,7 +231,7 @@ void Graph::remove_vertex(vertex v)
     _adjacency_vector.erase(v);
 }
 
-Graph Graph::N(vertex& v) const
+Graph Graph::N(const vertex& v) const
 {
     Graph res;
     for(auto& w : _adjacency_vector.at(v)){
