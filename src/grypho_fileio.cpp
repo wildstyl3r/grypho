@@ -22,23 +22,6 @@ Graph::Graph(string filename)//reading tgf and dot
 
   //dot -- based on nodesoup's reader
   if (file_ext == ".dot"){
-      auto name_to_vertex_id = [&names](string name, vector<neighbourhood>& g) -> vertex {
-        if (name[name.size() - 1] == ';') {
-            name.erase(name.end() - 1, name.end());
-          }
-
-        vertex v_id;
-        auto it = names.find(name);
-        if (it != names.end()) {
-            return (*it).second;
-          }
-
-        v_id = g.size();
-        names.insert({ name, v_id });
-        g.resize(v_id + 1);
-        return v_id;
-      };
-
       // skip first line
       std::getline(ifs, line);
 
@@ -48,36 +31,30 @@ Graph::Graph(string filename)//reading tgf and dot
             }
 
           std::istringstream iss(line);
-          string name, edge_sign, adj_name;
-          iss >> name >> edge_sign >> adj_name;
+          vertex v, u;
+          string edge_sign;
+          iss >> v >> edge_sign >> u;
 
-          // add vertex if new
-          vertex v_id = name_to_vertex_id(name, _adjacency_vector);
+          if(v[v.size()-1] == ';'){
+              v.resize(v.size()-1);
+          }
+          if(u[u.size()-1] == ';'){
+              u.resize(u.size()-1);
+          }
 
           assert(edge_sign == "--" || edge_sign.size() == 0);
           if (edge_sign != "--") {
               continue;
             }
 
-          // add adjacent vertex if new
-          vertex adj_id = name_to_vertex_id(adj_name, _adjacency_vector);
-
-          // add edge if new
-          if (std::find(_adjacency_vector[v_id].begin(), _adjacency_vector[v_id].end(), adj_id) == _adjacency_vector[v_id].end()) {
-              _adjacency_vector[v_id].insert(adj_id);
-              _adjacency_vector[adj_id].insert(v_id);
-            }
+          _adjacency_vector[v].insert(u);
+          _adjacency_vector[u].insert(v);
         }
-
-
-      _color.resize(_adjacency_vector.size(), 0);
-      _label.resize(_adjacency_vector.size());
 
     } else if (file_ext == ".tgf") {//tgf      
 
       std::unordered_map<string, value> colors;
 
-      vertex i = 0;
       while(!ifs.eof()){
           std::getline(ifs, line);
           sstream v(line);
@@ -85,40 +62,33 @@ Graph::Graph(string filename)//reading tgf and dot
           v >> id >> color; std::getline(v, label);
           if (id == "#") break;
 
-          if (names.count(id) == 1){
+          if (V().count(id) == 1){
               std::cout << "Error: non-unique vertex\n";
               abort();
             } else {
-              names[id] = i;
-              _ID.push_back("");
-              _label.push_back("");
-              _color.push_back(0);
+              _adjacency_vector[id] = {};
               if (colors.count(color) == 0){
                   value new_color = colors.size();
                   colors[color] = new_color;
                 }
-              _color[i] = colors[color];
-              _ID[i] = id;
-              _label[i] = color != "" && label != "" ? color + " " + label : color + label;
-              ++i;
+              _color[id] = colors[color];
+              _label[id] = color != "" && label != "" ? color + " " + label : color + label;
             }
         }
-
-      _adjacency_vector.resize(i);
 
       while(!ifs.eof()){
           std::getline(ifs, line);
           if (line == "") break;
           sstream e(line);
-          string v, u;
+          vertex v, u;
           e >> v >> u;
 
-          if (names.count(v) == 0 || names.count(u) == 0){
+          if (V().count(v) == 0 || V().count(u) == 0){
               std::cout << "Error: undefined vertex in edge list";
               abort();
             } else {
-              _adjacency_vector[names[v]].insert(names[u]);
-              _adjacency_vector[names[u]].insert(names[v]);
+              _adjacency_vector[v].insert(u);
+              _adjacency_vector[u].insert(v);
             }
         }
     } else if (file_ext == ".cgf") {//cgf
@@ -127,48 +97,26 @@ Graph::Graph(string filename)//reading tgf and dot
           std::getline(ifs, line);
           if (line == "") break;
           sstream e(line);
-          string v, u;
+          vertex v, u;
           e >> v >> u;
-
-          if (names.count(v) == 0){
-              names[v] = names.size();
-              _ID.push_back(v);
-          }
-          if (names.count(u) == 0){
-              names[u] = names.size();
-              _ID.push_back(u);
-          }
-          _adjacency_vector.resize(names.size());
-          _adjacency_vector[names[v]].insert(names[u]);
-          _adjacency_vector[names[u]].insert(names[v]);
+          _adjacency_vector[v].insert(u);
+          _adjacency_vector[u].insert(v);
       }
-      _color.resize(_adjacency_vector.size(), 0);
-      _label.resize(_adjacency_vector.size());
   } else {
 
       while(!ifs.eof()){
           std::getline(ifs, line);
           if (line == "") break;
           sstream e(line);
-          string type, v, u;
+          string type;
+          vertex v, u;
           e >> type >> v >> u;
 
           if (type == "e" && v != "" && u != ""){
-              if (names.count(v) == 0){
-                  names[v] = names.size();
-                  _ID.push_back(v);
-              }
-              if (names.count(u) == 0){
-                  names[u] = names.size();
-                  _ID.push_back(u);
-              }
-              _adjacency_vector.resize(names.size());
-              _adjacency_vector[names[v]].insert(names[u]);
-              _adjacency_vector[names[u]].insert(names[v]);
+              _adjacency_vector[v].insert(u);
+              _adjacency_vector[u].insert(v);
           }
       }
-      _color.resize(_adjacency_vector.size(), 0);
-      _label.resize(_adjacency_vector.size());
   }
 }
 
@@ -186,19 +134,19 @@ void Graph::save(string filename)//reading tgf and dot
     }
 
 
-    for(vertex v = 0; v < _adjacency_vector.size(); ++v){
-        graph << id(v) << (_label[v] == "" ? "" : " " + _label[v]) << '\n';
+    for(auto& [v, _] : V()){
+        graph << v << (_label[v] == "" ? "" : " " + _label[v]) << '\n';
     }
 
     graph << "#\n";
 
     std::set<edge> exported; //considering undirected graph
 
-    for(vertex v = 0; v < _adjacency_vector.size(); ++v){
-        for(vertex u = 0; u < _adjacency_vector.size(); ++u){
+    for(auto& [v, _] : V()){
+        for(auto& [u, _] : V()){
             edge e = {std::min(u,v), std::max(u,v)};
-            if (_adjacency_vector[v].count(u) && !exported.count(e)){
-                graph << id(e.first) << ' ' << id(e.second) << '\n';
+            if (has(e) && !exported.count(e)){
+                graph << e.first << ' ' << e.second << '\n';
                 exported.insert(e);
               }
         }

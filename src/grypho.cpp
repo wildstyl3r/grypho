@@ -88,7 +88,7 @@ value Graph::max_degree()  const{
 //Graph permute(std::vector<T> permutation);
 neighbourhood& Graph::operator()(vertex& v) { return _adjacency_vector[v]; };
 
-const auto& Graph::V() { return _adjacency_vector; };
+const adj_t& Graph::V() { return _adjacency_vector; };
 
 //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
 //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };

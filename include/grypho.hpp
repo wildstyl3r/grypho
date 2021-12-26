@@ -78,7 +78,7 @@ public:
     //Graph permute(std::vector<T> permutation);
     neighbourhood& operator()(vertex& v);
     neighbourhood& V(vertex& v);
-    const auto& V();
+    const adj_t& V();
     Graph operator!() const;
     Graph N(vertex& v) const;
     size_t size() const;
