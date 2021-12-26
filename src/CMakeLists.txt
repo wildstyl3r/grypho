@@ -6,7 +6,7 @@ target_include_directories(
     $<BUILD_INTERFACE:${grypho_SOURCE_DIR}/include>
   PRIVATE $<BUILD_INTERFACE:${grypho_SOURCE_DIR}/src>)
 
-target_compile_features(grypho PUBLIC cxx_std_14)
+target_compile_features(grypho PUBLIC cxx_std_17)
 
 set_target_properties(
   grypho PROPERTIES POSITION_INDEPENDENT_CODE ON

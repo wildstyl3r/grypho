@@ -13,50 +13,62 @@ using std::map;
 using std::vector;
 using std::string;
 using std::unordered_set;
+using std::unordered_map;
 
-using vertex = long long;
+using vertex = string;
+using vertex_leg = long long;
 using value = long long;
 using edge = std::pair<vertex, vertex>;
-using attributes = vector<value>;
+using edge_leg = std::pair<vertex_leg, vertex_leg>;
+using attributes = unordered_map<vertex, value>;
 using permutation = vector<vertex>;
 using neighbourhood = unordered_set<vertex>;
+using adj_t = unordered_map<vertex, neighbourhood>;
 
 
 class Graph
 {
 protected:
     bool _directed;
-    vector<neighbourhood> _adjacency_vector;
+    adj_t _adjacency_vector;
     attributes _color;
-    vector<string> _label;
-    vector<string> _ID;
+    unordered_map<vertex, string> _label;
+    //vector<string> _ID;
     map<edge, double> _weight;
     //Matrix<T> _distance_matrix;
 public:
     static constexpr char format[] = "Graph format: (*.tgf *.cgf *.dot)";
-    Graph(vector<edge>& edges, bool directed = false, bool base1 = false);
-    Graph(vector<neighbourhood> adjv, bool directed = false);
+    Graph(vector<edge>& edges, bool directed = false);
+    Graph(adj_t adjv, bool directed = false);
     Graph(){};
     Graph(string filename); //.dot (using nodesoup's demo) and .tgf
     //Graph(Matrix<T> dm); //adjacency or distance matrix
     void save(string filename);
     
+    //legacy
+    bool has(edge_leg& e) const;
+    bool has(vertex_leg& v) const;
+    virtual string label(vertex_leg& v) const;
+    virtual value color(vertex_leg& v) const;
+    value set_color(vertex_leg& v, value c);
+    neighbourhood& operator()(vertex_leg& v);
+    neighbourhood& V(vertex_leg& v);
+
     bool directed() const;
-    bool has(edge e) const;
-    bool has(vertex v) const;
-    void remove_edge(edge e);
-    void add_edge(edge e);
-    //void remove_vertex(vertex v);
+    bool has(edge& e) const;
+    bool has(vertex& v) const;
+    void remove_edge(edge& e);
+    void add_edge(edge& e);
+    void remove_vertex(vertex v);
     void add_vertex(neighbourhood adj);
-    //void swap_name(vertex v, vertex u);
-    value deg(vertex v) const;
+    void add_vertex(vertex v, neighbourhood adj = {}, value c = 0, string label = "");
+    value deg(vertex& v) const;
     //attributes& degrees();
-    virtual vertex color(vertex v) const;
-    vertex set_color(vertex v, value c);
-    virtual string id(vertex v) const;
-    const vector<string>& ids();
-    virtual string label(vertex v) const;
-    const vector<string>& labels();
+    virtual value color(vertex& v) const;
+    value set_color(vertex& v, value c);
+    vector<vertex> ids() const;
+    virtual string label(vertex& v) const;
+    const unordered_map<vertex, string>& labels();
     virtual attributes& colors();
     virtual size_t count_colors() const;
     value max_degree() const;
@@ -64,11 +76,11 @@ public:
     void set_weight(edge e, double v);
     //Graph permuteRandom(unsigned seed);
     //Graph permute(std::vector<T> permutation);
-    neighbourhood& operator()(vertex v);
-    neighbourhood& V(vertex v);
-    const vector< neighbourhood >& V();
+    neighbourhood& operator()(vertex& v);
+    neighbourhood& V(vertex& v);
+    const auto& V();
     Graph operator!() const;
-    void resize(size_t size);
+    Graph N(vertex& v) const;
     size_t size() const;
     //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
     //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.18)
 
 project(
   grypho
-  VERSION 0.0.4
+  VERSION 0.1.0
   DESCRIPTION "Simple graph class"
   LANGUAGES CXX)
 
