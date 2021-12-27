@@ -37,7 +37,9 @@ protected:
     map<edge, double> _weight;
     //Matrix<T> _distance_matrix;
 public:
-    static constexpr char format[] = "Graph format: (*.tgf *.cgf *.dot)";
+    static const string fileFormat;
+    static const value defaultColor;
+    static const string defaultLabel;
     Graph(vector<edge>& edges, bool directed = false);
     Graph(adj_t adjv, bool directed = false);
     Graph(){};
@@ -61,13 +63,14 @@ public:
     void add_edge(edge e);
     void remove_vertex(vertex v);
     void add_vertex(neighbourhood adj);
-    void add_vertex(vertex v, neighbourhood adj = {}, value c = 0, string label = "");
+    void add_vertex(vertex v, neighbourhood adj = {}, value c = defaultColor, string label = defaultLabel);
     value deg(const vertex& v) const;
     //attributes& degrees();
     virtual value color(const vertex& v) const;
     value set_color(const vertex& v, value c);
+    const string& set_label(const vertex& v, const string l);
     vector<vertex> ids() const;
-    virtual string label(const vertex& v) const;
+    virtual const string& label(const vertex& v) const;
     const unordered_map<vertex, string>& labels();
     virtual attributes& colors();
     virtual size_t count_colors() const;

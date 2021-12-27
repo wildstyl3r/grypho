@@ -54,15 +54,19 @@ value Graph::color(const vertex& v) const {
     if(_color.count(v)){
         return _color.at(v);
     } else {
-        return 0;
+        return defaultColor;
     }
 }
 
 value Graph::set_color(const vertex& v, value c) {
     if(has(v)){
-        return _color[v] = c;
+        if (c){
+            return _color[v] = c;
+        } else {
+            _color.erase(v);
+        }
     }
-    return 0;
+    return defaultColor;
 }
 
 attributes& Graph::colors() { return _color; }
@@ -109,12 +113,12 @@ Graph::Graph(vector<edge>& edges, bool directed) : _directed(directed)
 }
 
 
-string Graph::label(const vertex& v) const
+const string& Graph::label(const vertex& v) const
 {
     if(_label.count(v)){
         return _label.at(v);
     } else {
-        return "";
+        return defaultLabel;
     }
 }
 
@@ -158,8 +162,8 @@ Graph Graph::operator!() const
             }
         }
     for(auto& [v, _] : _adjacency_vector){
-        res._color[v] = color(v);
-        res._label[v] = label(v);
+        res.set_color(v, color(v));
+        res.set_label(v, label(v));
     }
     return res;
 }
@@ -223,7 +227,7 @@ const neighbourhood& Graph::V(vertex_leg v) const
 
 void Graph::remove_vertex(vertex v)
 {
-    for(auto& u : _adjacency_vector[v]){
+    for(const vertex& u : _adjacency_vector[v]){
         _adjacency_vector[u].erase(v);
     }
     _color.erase(v);
@@ -234,17 +238,34 @@ void Graph::remove_vertex(vertex v)
 Graph Graph::N(const vertex& v) const
 {
     Graph res;
-    for(auto& w : _adjacency_vector.at(v)){
+    for(const vertex& w : V(v)){
         res._adjacency_vector[w] = {};
-        for(auto& u : _adjacency_vector.at(v)){
-            if(_adjacency_vector.at(w).count(u) == 1){
+        for(const vertex& u : V(v)){
+            if(V(w).count(u) == 1){
                 res._adjacency_vector[w].insert(u);
             }
         }
     }
-    for(auto& w : _adjacency_vector.at(v)){
-        res._color[v] = color(w);
-        res._label[v] = label(w);
+    for(auto& w : V(v)){
+        res.set_color(v, color(w));
+        res.set_label(v, label(w));
     }
     return res;
 }
+
+const string& Graph::set_label(const vertex& v, const string l)
+{
+    if(has(v)){
+        if (l != defaultLabel){
+            return _label[v] = l;
+        } else {
+            _label.erase(v);
+        }
+    }
+    return defaultLabel;
+}
+
+
+const string Graph::fileFormat = "Graph format: (*.tgf *.cgf *.dot)";
+const string Graph::defaultLabel = "";
+const value Graph::defaultColor = 0;
