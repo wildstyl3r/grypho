@@ -65,7 +65,7 @@ public:
     value deg(const vertex& v) const;
     //attributes& degrees();
     virtual value color(const vertex& v) const;
-    value set_color(vertex& v, value c);
+    value set_color(const vertex& v, value c);
     vector<vertex> ids() const;
     virtual string label(const vertex& v) const;
     const unordered_map<vertex, string>& labels();

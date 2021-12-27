@@ -58,7 +58,7 @@ value Graph::color(const vertex& v) const {
     }
 }
 
-value Graph::set_color(vertex& v, value c) {
+value Graph::set_color(const vertex& v, value c) {
     if(has(v)){
         return _color[v] = c;
     }
