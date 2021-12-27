@@ -85,6 +85,7 @@ public:
     Graph operator!() const;
     Graph N(const vertex& v) const;
     size_t size() const;
+    Graph S(const unordered_set<vertex>& target) const;
     //inline T distance(T v1, T v2) { return _distance_matrix[v1][v2]; };
     //inline std::vector<T>& operator[] (const size_t i) { return _distance_matrix[i]; };
     //Matrix<T> getAdjMatrix() { return _distance_matrix & 1; };

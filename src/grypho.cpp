@@ -14,16 +14,22 @@ bool Graph::has(edge e) const
 
 void Graph::remove_edge(edge e)
 {
-  _adjacency_vector[e.first].erase(e.second);
-  _adjacency_vector[e.second].erase(e.first);
-  _weight.erase(e);
+  if(has(e)){
+      _adjacency_vector[e.first].erase(e.second);
+      if(!_directed){
+          _adjacency_vector[e.second].erase(e.first);
+      }
+      _weight.erase(e);
+  }
 }
 
 
 void Graph::add_edge(edge e)
 {
   _adjacency_vector[e.first].insert(e.second);
-  _adjacency_vector[e.second].insert(e.first);
+  if(!_directed){
+      _adjacency_vector[e.second].insert(e.first);
+  }
 }
 
 
@@ -41,8 +47,8 @@ void Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
             _adjacency_vector[u].insert(v);
         }
     }
-    _color[v] = c;
-    _label[v] = label;
+    set_color(v, c);
+    set_label(v, label);
 }
 
 
@@ -227,30 +233,19 @@ const neighbourhood& Graph::V(vertex_leg v) const
 
 void Graph::remove_vertex(vertex v)
 {
-    for(const vertex& u : _adjacency_vector[v]){
-        _adjacency_vector[u].erase(v);
+    if(has(v)){
+        for(const vertex& u : _adjacency_vector[v]){
+            _adjacency_vector[u].erase(v);
+        }
+        _color.erase(v);
+        _label.erase(v);
+        _adjacency_vector.erase(v);
     }
-    _color.erase(v);
-    _label.erase(v);
-    _adjacency_vector.erase(v);
 }
 
 Graph Graph::N(const vertex& v) const
 {
-    Graph res;
-    for(const vertex& w : V(v)){
-        res._adjacency_vector[w] = {};
-        for(const vertex& u : V(v)){
-            if(V(w).count(u) == 1){
-                res._adjacency_vector[w].insert(u);
-            }
-        }
-    }
-    for(auto& w : V(v)){
-        res.set_color(v, color(w));
-        res.set_label(v, label(w));
-    }
-    return res;
+    return S(V(v));
 }
 
 const string& Graph::set_label(const vertex& v, const string l)
@@ -263,6 +258,24 @@ const string& Graph::set_label(const vertex& v, const string l)
         }
     }
     return defaultLabel;
+}
+
+Graph Graph::S(const unordered_set<vertex>& target) const
+{
+    Graph res;
+    for(const vertex& v : target){
+        res._adjacency_vector[v] = {};
+        for(const vertex& u : target){
+            if(has({v,u})){
+                res._adjacency_vector[v].insert(u);
+            }
+        }
+    }
+    for(auto& [w, _] : res.V()){
+        res.set_color(w, color(w));
+        res.set_label(w, label(w));
+    }
+    return res;
 }
 
 
