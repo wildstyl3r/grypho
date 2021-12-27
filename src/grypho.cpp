@@ -157,7 +157,7 @@ Graph Graph::operator!() const
     Graph res;
     for(auto& [v, _] : _adjacency_vector)
         for(auto& [u, _] : _adjacency_vector){
-            if(_adjacency_vector.at(v).count(u) == 0){
+            if(v != u && _adjacency_vector.at(v).count(u) == 0){
                 res._adjacency_vector[v].insert(u);
             }
         }
