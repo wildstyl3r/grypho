@@ -3,7 +3,9 @@
 Graph::Graph(adj_t adjv, bool directed) :
     _directed(directed),
     _adjacency_vector(adjv)
-{}
+{
+    recount_edges();
+}
 
 
 bool Graph::has(edge e) const
@@ -20,12 +22,16 @@ void Graph::remove_edge(edge e)
           _adjacency_vector[e.second].erase(e.first);
       }
       _weight.erase(e);
+      _edges--;
   }
 }
 
 
 void Graph::add_edge(edge e)
 {
+  if(!has(e)){
+      _edges++;
+  }
   _adjacency_vector[e.first].insert(e.second);
   if(!_directed){
       _adjacency_vector[e.second].insert(e.first);
@@ -41,14 +47,17 @@ void Graph::add_vertex(neighbourhood adj)
 
 void Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
 {
-    _adjacency_vector[v] = adj;
-    if(!_directed){
-        for(const vertex& u : adj){
-            _adjacency_vector[u].insert(v);
+    if(!has(v)){
+        _edges += adj.size();
+        _adjacency_vector[v] = adj;
+        if(!_directed){
+            for(const vertex& u : adj){
+                _adjacency_vector[u].insert(v);
+            }
         }
+        set_color(v, c);
+        set_label(v, label);
     }
-    set_color(v, c);
-    set_label(v, label);
 }
 
 
@@ -75,7 +84,7 @@ value Graph::set_color(const vertex& v, value c) {
     return defaultColor;
 }
 
-attributes& Graph::colors() { return _color; }
+const attributes& Graph::colors() const { return _color; }
 
 size_t Graph::count_colors() const
 {
@@ -115,6 +124,7 @@ Graph::Graph(vector<edge>& edges, bool directed) : _directed(directed)
             _adjacency_vector[u].insert(v);
         }
     }
+    _edges = edges.size();
     //_distance_matrix.resize(size);
 }
 
@@ -128,7 +138,7 @@ const string& Graph::label(const vertex& v) const
     }
 }
 
-const unordered_map<vertex, string>& Graph::labels()
+const unordered_map<vertex, string>& Graph::labels() const
 {
     return _label;
 }
@@ -164,8 +174,8 @@ Graph Graph::operator!() const
     for(auto& [v, _] : _adjacency_vector){
         res._adjacency_vector[v] = {};
         for(auto& [u, _] : _adjacency_vector){
-            if(v != u && _adjacency_vector.at(v).count(u) == 0){
-                res._adjacency_vector[v].insert(u);
+            if(v != u && !has({v,u})){
+                res.add_edge({v,u});
             }
         }
     }
@@ -241,6 +251,7 @@ void Graph::remove_vertex(vertex v)
         }
         _color.erase(v);
         _label.erase(v);
+        _edges -= _adjacency_vector[v].size();
         _adjacency_vector.erase(v);
     }
 }
@@ -269,7 +280,7 @@ Graph Graph::S(const unordered_set<vertex>& target) const
         res._adjacency_vector[v] = {};
         for(const vertex& u : target){
             if(has({v,u})){
-                res._adjacency_vector[v].insert(u);
+                res.add_edge({v,u});
             }
         }
     }
@@ -282,12 +293,21 @@ Graph Graph::S(const unordered_set<vertex>& target) const
 
 double Graph::density() const
 {
-    size_t es = 0;
+    return (double) _edges / (size() * (size()-1) / 2);
+}
+
+size_t Graph::edges() const
+{
+    return _edges;
+}
+
+void Graph::recount_edges()
+{
+    _edges = 0;
     for(auto& [_, n] : V()){
-        es += n.size();
+        _edges += n.size();
     }
-    es >>= 1;
-    return (double) es / (size() * (size()-1) / 2);
+    if (!_directed) _edges >>= 1;
 }
 
 

@@ -30,6 +30,7 @@ class Graph
 {
 protected:
     bool _directed;
+    size_t _edges;
     adj_t _adjacency_vector;
     attributes _color;
     unordered_map<vertex, string> _label;
@@ -42,7 +43,7 @@ public:
     static const string defaultLabel;
     Graph(vector<edge>& edges, bool directed = false);
     Graph(adj_t adjv, bool directed = false);
-    Graph(){};
+    Graph():_edges(0), _directed(false){};
     Graph(string filename); //.dot (using nodesoup's demo) and .tgf
     //Graph(Matrix<T> dm); //adjacency or distance matrix
     void save(string filename);
@@ -65,20 +66,17 @@ public:
     void add_vertex(neighbourhood adj);
     void add_vertex(vertex v, neighbourhood adj = {}, value c = defaultColor, string label = defaultLabel);
     value deg(const vertex& v) const;
-    //attributes& degrees();
     virtual value color(const vertex& v) const;
     value set_color(const vertex& v, value c);
     const string& set_label(const vertex& v, const string l);
     vector<vertex> ids() const;
     virtual const string& label(const vertex& v) const;
-    const unordered_map<vertex, string>& labels();
-    virtual attributes& colors();
+    const unordered_map<vertex, string>& labels() const;
+    virtual const attributes& colors() const;
     virtual size_t count_colors() const;
     value max_degree() const;
     double weight(edge e) const;
     void set_weight(edge e, double v);
-    //Graph permuteRandom(unsigned seed);
-    //Graph permute(std::vector<T> permutation);
     const neighbourhood& operator()(const vertex& v) const;
     const neighbourhood& V(const vertex& v) const;
     const adj_t& V() const;
