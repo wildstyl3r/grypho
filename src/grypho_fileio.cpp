@@ -78,7 +78,7 @@ Graph::Graph(string filename)//reading tgf and dot
 
       while(!ifs.eof()){
           std::getline(ifs, line);
-          if (line == "") break;
+          if (line == "") continue;;
           sstream e(line);
           vertex v, u;
           e >> v >> u;
@@ -95,7 +95,7 @@ Graph::Graph(string filename)//reading tgf and dot
 
       while(!ifs.eof()){
           std::getline(ifs, line);
-          if (line == "") break;
+          if (line == "") continue;;
           sstream e(line);
           vertex v, u;
           e >> v >> u;
@@ -106,7 +106,7 @@ Graph::Graph(string filename)//reading tgf and dot
 
       while(!ifs.eof()){
           std::getline(ifs, line);
-          if (line == "") break;
+          if (line == "") continue;;
           sstream e(line);
           string type;
           vertex v, u;
