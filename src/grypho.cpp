@@ -161,12 +161,14 @@ size_t Graph::size() const{
 Graph Graph::operator!() const
 {
     Graph res;
-    for(auto& [v, _] : _adjacency_vector)
+    for(auto& [v, _] : _adjacency_vector){
+        res._adjacency_vector[v] = {};
         for(auto& [u, _] : _adjacency_vector){
             if(v != u && _adjacency_vector.at(v).count(u) == 0){
                 res._adjacency_vector[v].insert(u);
             }
         }
+    }
     for(auto& [v, _] : _adjacency_vector){
         res.set_color(v, color(v));
         res.set_label(v, label(v));
