@@ -278,6 +278,16 @@ Graph Graph::S(const unordered_set<vertex>& target) const
     return res;
 }
 
+double Graph::density() const
+{
+    size_t es = 0;
+    for(auto& [_, n] : V()){
+        es += n.size();
+    }
+    es >>= 1;
+    return (double) es / (size() * (size()-1) / 2);
+}
+
 
 const string Graph::fileFormat = "Graph format: (*.tgf *.cgf *.dot)";
 const string Graph::defaultLabel = "";
