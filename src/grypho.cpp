@@ -10,8 +10,8 @@ Graph::Graph(adj_t adjv, bool directed) :
 
 bool Graph::has(edge e) const
 {
-  if(!has(e.first)) return false;
-  return _adjacency_vector.at(e.first).count(e.second);
+  if(!has(min(e.first, e.second))) return false;
+  return _adjacency_vector.at(min(e.first, e.second)).count(max(e.first, e.second));
 }
 
 
