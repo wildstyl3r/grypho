@@ -173,16 +173,16 @@ Graph Graph::operator!() const
 {
     Graph res;
     for(auto& [v, _] : _adjacency_vector){
-        res._adjacency_vector[v] = {};
+        res.add_vertex(v);
+        res.set_color(v, color(v));
+        res.set_label(v, label(v));
+    }
+    for(auto& [v, _] : _adjacency_vector){
         for(auto& [u, _] : _adjacency_vector){
             if(v != u && !has({v,u})){
                 res.add_edge({v,u});
             }
         }
-    }
-    for(auto& [v, _] : _adjacency_vector){
-        res.set_color(v, color(v));
-        res.set_label(v, label(v));
     }
     return res;
 }
@@ -277,6 +277,11 @@ const string& Graph::set_label(const vertex& v, const string l)
 Graph Graph::S(const unordered_set<vertex>& target) const
 {
     Graph res;
+    for(auto& w : target){
+        res.add_vertex(w);
+        res.set_color(w, color(w));
+        res.set_label(w, label(w));
+    }
     for(const vertex& v : target){
         res._adjacency_vector[v] = {};
         for(const vertex& u : target){
@@ -284,10 +289,6 @@ Graph Graph::S(const unordered_set<vertex>& target) const
                 res.add_edge({v,u});
             }
         }
-    }
-    for(auto& [w, _] : res.V()){
-        res.set_color(w, color(w));
-        res.set_label(w, label(w));
     }
     return res;
 }
