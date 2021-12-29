@@ -11,11 +11,7 @@ Graph::Graph(adj_t adjv, bool directed) :
 bool Graph::has(edge e) const
 {
   if(!has(e.first) || !has(e.second)) return false;
-  if(_directed){
-      return _adjacency_vector.at(e.first).count(e.second);
-  } else {
-      return _adjacency_vector.at(std::min(e.first, e.second)).count(std::max(e.first, e.second));
-  }
+  return _adjacency_vector.at(e.first).count(e.second);
 }
 
 
@@ -284,7 +280,7 @@ Graph Graph::S(const unordered_set<vertex>& target) const
     for(const vertex& v : target){
         res._adjacency_vector[v] = {};
         for(const vertex& u : target){
-            if(has({v,u})){
+            if(v != u && has({v,u})){
                 res.add_edge({v,u});
             }
         }
