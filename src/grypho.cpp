@@ -10,7 +10,11 @@ Graph::Graph(adj_t adjv, bool directed) :
 
 bool Graph::has(edge e) const
 {
-  return _adjacency_vector.at(e.first).count(e.second);
+  if(_directed){
+      return _adjacency_vector.at(e.first).count(e.second);
+  } else {
+      return _adjacency_vector.at(std::min(e.first, e.second)).count(std::max(e.first, e.second));
+  }
 }
 
 
@@ -31,10 +35,10 @@ void Graph::add_edge(edge e)
 {
   if(!has(e)){
       _edges++;
-  }
-  _adjacency_vector[e.first].insert(e.second);
-  if(!_directed){
-      _adjacency_vector[e.second].insert(e.first);
+      _adjacency_vector[e.first].insert(e.second);
+      if(!_directed){
+          _adjacency_vector[e.second].insert(e.first);
+      }
   }
 }
 
