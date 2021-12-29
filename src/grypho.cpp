@@ -1,7 +1,7 @@
 #include "grypho.hpp"
 
 Graph::Graph(adj_t adjv, bool directed) :
-    _directed(directed),
+    //_directed(directed),
     _adjacency_vector(adjv)
 {
     recount_edges();
@@ -19,9 +19,9 @@ void Graph::remove_edge(edge e)
 {
   if(has(e)){
       _adjacency_vector[e.first].erase(e.second);
-      if(!_directed){
+      //if(!_directed){
           _adjacency_vector[e.second].erase(e.first);
-      }
+      //}
       _weight.erase(e);
       _edges--;
   }
@@ -33,9 +33,9 @@ void Graph::add_edge(edge e)
   if(!has(e)){
       _edges++;
       _adjacency_vector[e.first].insert(e.second);
-      if(!_directed){
+      //if(!_directed){
           _adjacency_vector[e.second].insert(e.first);
-      }
+      //}
   }
 }
 
@@ -51,11 +51,11 @@ void Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
     if(!has(v)){
         _edges += adj.size();
         _adjacency_vector[v] = adj;
-        if(!_directed){
+        //if(!_directed){
             for(const vertex& u : adj){
                 _adjacency_vector[u].insert(v);
             }
-        }
+        //}
         set_color(v, c);
         set_label(v, label);
     }
@@ -115,7 +115,7 @@ const adj_t& Graph::V() const { return _adjacency_vector; };
 //Matrix<T> getAdjMatrix() { return _distance_matrix & 1; };
 //Matrix<T> getDistMatrix() { return _distance_matrix; };
 
-Graph::Graph(vector<edge>& edges, bool directed) : _directed(directed)
+Graph::Graph(vector<edge>& edges, bool directed) //: _directed(directed)
 {
     for(auto it = edges.begin(); it != edges.end(); ++it){
         auto& [v, u] = *it;
@@ -155,7 +155,7 @@ vector<vertex> Graph::ids() const
 
 bool Graph::directed() const
 {
-    return _directed;
+    return false;// _directed;
 }
 
 bool Graph::has(const vertex& v) const
@@ -189,17 +189,17 @@ Graph Graph::operator!() const
 
 double Graph::weight(edge e) const
 {
-    if (!_directed){
+    //if (!_directed){
         e = {std::min(e.first, e.second), std::max(e.first, e.second)};
-    }
+    //}
     return _weight.count(e) == 0 ? 1 : _weight.at(e);
 }
 
 void Graph::set_weight(edge e, double v)
 {
-    if (!_directed) {
+    //if (!_directed) {
         e = {std::min(e.first, e.second), std::max(e.first, e.second)};
-    }
+    //}
     if (v == 1 && _weight.count(e)){
         _weight.erase(e);
     } else {
@@ -308,7 +308,8 @@ void Graph::recount_edges()
     for(auto& [_, n] : V()){
         _edges += n.size();
     }
-    if (!_directed) _edges >>= 1;
+    //if (!_directed)
+        _edges >>= 1;
 }
 
 

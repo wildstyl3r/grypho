@@ -29,7 +29,7 @@ using adj_t = unordered_map<vertex, neighbourhood>;
 class Graph
 {
 protected:
-    bool _directed;
+    //bool _directed;
     size_t _edges;
     adj_t _adjacency_vector;
     attributes _color;
@@ -43,7 +43,7 @@ public:
     static const string defaultLabel;
     Graph(vector<edge>& edges, bool directed = false);
     Graph(adj_t adjv, bool directed = false);
-    Graph():_edges(0), _directed(false){};
+    Graph():_edges(0){};
     Graph(string filename); //.dot (using nodesoup's demo) and .tgf
     //Graph(Matrix<T> dm); //adjacency or distance matrix
     void save(string filename);
