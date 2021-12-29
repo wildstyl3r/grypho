@@ -180,10 +180,11 @@ Graph Graph::operator!() const
     for(auto& [v, _] : _adjacency_vector){
         for(auto& [u, _] : _adjacency_vector){
             if(v != u && !has({v,u})){
-                res.add_edge({v,u});
+                res._adjacency_vector[v].insert(u);
             }
         }
     }
+    res.recount_edges();
     return res;
 }
 
@@ -247,8 +248,10 @@ const neighbourhood& Graph::V(vertex_leg v) const
 void Graph::remove_vertex(vertex v)
 {
     if(has(v)){
-        for(const vertex& u : _adjacency_vector[v]){
-            _adjacency_vector[u].erase(v);
+        for(auto& [u, n] : _adjacency_vector){
+            n.erase(v);
+            edge e = {std::min(v, u), std::max(v, u)};
+            _weight.erase(e);
         }
         _color.erase(v);
         _label.erase(v);
@@ -283,13 +286,13 @@ Graph Graph::S(const unordered_set<vertex>& target) const
         res.set_label(w, label(w));
     }
     for(const vertex& v : target){
-        res._adjacency_vector[v] = {};
         for(const vertex& u : target){
             if(v != u && has({v,u})){
-                res.add_edge({v,u});
+                res._adjacency_vector[v].insert(u);
             }
         }
     }
+    res.recount_edges();
     return res;
 }
 
