@@ -118,6 +118,7 @@ Graph::Graph(string filename)//reading tgf and dot
           }
       }
   }
+  recount_edges();
 }
 
 
