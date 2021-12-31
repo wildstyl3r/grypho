@@ -42,8 +42,7 @@ void Graph::add_edge(edge e)
 
 void Graph::add_vertex(neighbourhood adj)
 {
-  vertex v = std::to_string(size());
-  add_vertex(v, adj);
+  add_vertex(std::to_string(size()), adj);
 }
 
 void Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
@@ -211,45 +210,38 @@ void Graph::set_weight(edge e, double v)
 
 bool Graph::has(edge_leg e) const
 {
-    edge e1 = {std::to_string(e.first), std::to_string(e.second)};
-    return has(e1);
+    return has({std::to_string(e.first), std::to_string(e.second)});
 }
 bool Graph::has(vertex_leg v) const{
-    vertex v1 = std::to_string(v);
-    return has(v1);
+    return has(std::to_string(v));
 }
 string Graph::label(vertex_leg v) const
 {
-    vertex v1 = std::to_string(v);
-    return label(v1);
+    return label(std::to_string(v));
 }
 value Graph::color(vertex_leg v) const
 {
-    vertex v1 = std::to_string(v);
-    return color(v1);
+    return color(std::to_string(v));
 }
 value Graph::set_color(vertex_leg v, value c)
 {
-    vertex v1 = std::to_string(v);
-    return set_color(v1, c);
+    return set_color(std::to_string(v), c);
 }
 const neighbourhood& Graph::operator()(vertex_leg v) const
 {
-    vertex v1 = std::to_string(v);
-    return operator()(v1);
+    return operator()(std::to_string(v));
 }
 const neighbourhood& Graph::V(vertex_leg v) const
 {
-    vertex v1 = std::to_string(v);
-    return V(v1);
+    return V(std::to_string(v));
 }
 
 
 void Graph::remove_vertex(vertex v)
 {
     if(has(v)){
-        for(auto& [u, n] : _adjacency_vector){
-            n.erase(v);
+        for(const vertex& u : _adjacency_vector[v]){
+            _adjacency_vector[u].erase(v);
             edge e = {std::min(v, u), std::max(v, u)};
             _weight.erase(e);
         }
@@ -280,17 +272,15 @@ const string& Graph::set_label(const vertex& v, const string l)
 Graph Graph::S(const unordered_set<vertex>& target) const
 {
     Graph res;
-    for(auto& w : target){
-        res.add_vertex(w);
-        res.set_color(w, color(w));
-        res.set_label(w, label(w));
-    }
     for(const vertex& v : target){
         for(const vertex& u : target){
-            if(v != u && has({v,u})){
+            if(v < u && has({v,u})){
                 res._adjacency_vector[v].insert(u);
+                res._adjacency_vector[u].insert(v);
             }
         }
+        res.set_color(v, color(v));
+        res.set_label(v, label(v));
     }
     res.recount_edges();
     return res;
