@@ -48,6 +48,7 @@ void Graph::add_vertex(neighbourhood adj)
 void Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
 {
     if(!has(v)){
+        _adjacency_vector[v] = {};
         for(const vertex& u : adj){
             if(has(u)){
                 _adjacency_vector[v].insert(u);
