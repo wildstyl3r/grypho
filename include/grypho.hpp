@@ -63,8 +63,8 @@ public:
     void remove_edge(edge e);
     void add_edge(edge e);
     void remove_vertex(vertex v);
-    void add_vertex(neighbourhood adj);
-    void add_vertex(vertex v, neighbourhood adj = {}, value c = defaultColor, string label = defaultLabel);
+    const neighbourhood& add_vertex(neighbourhood adj);
+    const neighbourhood& add_vertex(vertex v, neighbourhood adj = {}, value c = defaultColor, string label = defaultLabel);
     value deg(const vertex& v) const;
     virtual value color(const vertex& v) const;
     value set_color(const vertex& v, value c);

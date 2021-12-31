@@ -40,12 +40,12 @@ void Graph::add_edge(edge e)
 }
 
 
-void Graph::add_vertex(neighbourhood adj)
+const neighbourhood& Graph::add_vertex(neighbourhood adj)
 {
-  add_vertex(std::to_string(size()), adj);
+  return add_vertex(std::to_string(size()), adj);
 }
 
-void Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
+const neighbourhood& Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
 {
     if(!has(v)){
         _adjacency_vector[v] = {};
@@ -61,6 +61,7 @@ void Graph::add_vertex(vertex v, neighbourhood adj, value c, string label)
         set_color(v, c);
         set_label(v, label);
     }
+    return _adjacency_vector[v];
 }
 
 
@@ -175,9 +176,7 @@ Graph Graph::operator!() const
 {
     Graph res;
     for(auto& [v, _] : _adjacency_vector){
-        res.add_vertex(v);
-        res.set_color(v, color(v));
-        res.set_label(v, label(v));
+        res.add_vertex(v, {}, color(v), label(v));
     }
     for(auto& [v, _] : _adjacency_vector){
         for(auto& [u, _] : _adjacency_vector){
@@ -275,6 +274,9 @@ const string& Graph::set_label(const vertex& v, const string l)
 Graph Graph::S(const unordered_set<vertex>& target) const
 {
     Graph res;
+    for(auto& v : target){
+        res.add_vertex(v, {}, color(v), label(v));
+    }
     for(const vertex& v : target){
         for(const vertex& u : target){
             if(v < u && has({v,u})){
@@ -282,8 +284,6 @@ Graph Graph::S(const unordered_set<vertex>& target) const
                 res._adjacency_vector[u].insert(v);
             }
         }
-        res.set_color(v, color(v));
-        res.set_label(v, label(v));
     }
     res.recount_edges();
     return res;
